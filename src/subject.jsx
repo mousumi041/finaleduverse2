@@ -55,16 +55,18 @@ export default function Subject() {
               src={`https://www.youtube.com/embed/${id}`}
               allowFullScreen
             />
-            <button 
-              onClick={() => toggleWatch(id)}
-              style={{
-                width: "100%", padding: "10px", marginTop: "10px", cursor: "pointer",
-                background: watchedVideos.find(v => v.id === id) ? "#10b981" : "var(--primary-btn)",
-                color: "#fff", border: "none", borderRadius: "8px", fontWeight: "bold"
-              }}
-            >
-              {watchedVideos.find(v => v.id === id) ? "✅ Watched" : "Mark as Watched"}
-            </button>
+            {localStorage.getItem("user") && (
+              <button 
+                onClick={() => toggleWatch(id)}
+                style={{
+                  width: "100%", padding: "10px", marginTop: "10px", cursor: "pointer",
+                  background: watchedVideos.find(v => v.id === id) ? "#10b981" : "var(--primary-btn)",
+                  color: "#fff", border: "none", borderRadius: "8px", fontWeight: "bold"
+                }}
+              >
+                {watchedVideos.find(v => v.id === id) ? "✅ Watched" : "Mark as Watched"}
+              </button>
+            )}
           </div>
         ))}
       </div>
