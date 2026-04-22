@@ -13,6 +13,40 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* LIGHT MODE VARIABLES (Default) */
+  --bg-main: linear-gradient(135deg, #fffafa 0%, #ffeaf1 50%, #eff3ff 100%);
+  --bg-solid: #f7f9fb;
+  --bg-card: #ffffff;
+  --bg-card-hover: rgba(255, 255, 255, 0.9);
+  --text-main: #1c1d1f;
+  --text-muted: #6a6f73;
+  --text-highlight: #ff6b81; /* Pinkish-red accent from light theme img */
+  --primary-accent: #ffcc70; /* Yellow */
+  --primary-btn: #ff6b81; 
+  --primary-btn-hover: #e04a60;
+  --border-color: #e2e8f0;
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  --input-bg: #f7f9fb;
+}
+
+:root[data-theme="dark"] {
+  /* DARK MODE VARIABLES */
+  --bg-main: linear-gradient(135deg, #131735 0%, #171b40 100%);
+  --bg-solid: #131735;
+  --bg-card: #20244f; 
+  --bg-card-hover: rgba(32, 36, 79, 0.9);
+  --text-main: #ffffff;
+  --text-muted: #a1a3cc;
+  --text-highlight: #38bdf8; /* Light blue accent */
+  --primary-accent: #38bdf8; /* Light blue accent replacing yellow */
+  --primary-btn: #0284c7; /* Solid light/mid blue for buttons and CTA background */
+  --primary-btn-hover: #0369a1; 
+  --border-color: #313563;
+  --nav-bg: rgba(19, 23, 53, 0.85);
+  --shadow-color: rgba(0, 0, 0, 0.35);
+  --input-bg: #1c2045;
 }
 
 *,

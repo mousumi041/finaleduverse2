@@ -13,9 +13,20 @@ import Membership from "./Membership";
 /* 🔽 NEW IMPORTS (ADDED, NOTHING ELSE TOUCHED) */
 import QuizSubjects from "./QuizSubjects";
 import QuizPage from "./QuizPage";
+import { useState, useEffect } from "react";
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === "light" ? "dark" : "light");
+  };
 
   return (
     <Router>
@@ -29,14 +40,12 @@ function App() {
             <Link to="/courses">Courses</Link>
             <Link to="/about">About</Link>
             
-            {/* LOGIN STATE */}
             {user ? (
               <>
-                <span style={{ marginLeft: "30px", color: "#ffcc70" }}>
-                  Hello, {user.fullName}
+                <span style={{ marginLeft: "30px", color: "var(--primary-accent)" }}>
+                  Hello, {user.fullName || user.name}
                 </span>
                 <Link to="/profile">My Profile</Link>
-                <Link to="/membership">Membership</Link>
               </>
             ) : (
               <Link to="/login">Login</Link>
@@ -59,11 +68,13 @@ function App() {
                       Learn from industry experts, crack exams, upskill yourself
                       and build your future with India’s next-gen LMS platform.
                     </p>
-                    <button>Start Learning</button>
+                    <Link to="/courses">
+                      <button style={{cursor: "pointer"}}>Start Learning</button>
+                    </Link>
                   </div>
 
                   <img
-                    src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
+                    src="/hero-illustration.png"
                     alt="Learning"
                   />
                 </section>
@@ -125,7 +136,8 @@ function App() {
           <Route path="/courses/:category" element={<Category />} />
           <Route path="/courses/:category/:subject" element={<Subject />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile theme={theme} toggleTheme={toggleTheme} />} />
+
 
           
           <Route path="/quizzes" element={<QuizSubjects />} />

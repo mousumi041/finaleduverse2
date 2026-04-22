@@ -1,7 +1,7 @@
 /* ====== GLOBAL ====== */
 .page {
   padding: 40px 60px;
-  background: #f7f9fb;
+  background: var(--bg-solid);
   min-height: 100vh;
   font-family: "Inter", "Segoe UI", sans-serif;
 }
@@ -10,7 +10,7 @@ h1 {
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 30px;
-  color: #1c1d1f;
+  color: var(--text-main);
 }
 
 /* ====== BACK BUTTON ====== */
@@ -19,7 +19,7 @@ h1 {
   border: none;
   font-size: 16px;
   font-weight: 600;
-  color: #5624d0;
+  color: var(--primary-btn);
   cursor: pointer;
   margin-bottom: 20px;
 }
@@ -33,21 +33,22 @@ h1 {
 
 /* ====== CARD ====== */
 .card {
-  background: #ffffff;
+  background: var(--bg-card);
   border-radius: 14px;
   padding: 28px 22px;
   cursor: pointer;
   transition: all 0.25s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 12px var(--shadow-color);
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--border-color);
 }
 
 .card::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #5624d0, #8b5cf6);
+  background: var(--primary-btn);
   opacity: 0;
   transition: opacity 0.25s ease;
 }
@@ -58,13 +59,13 @@ h1 {
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 20px var(--shadow-color);
 }
 
 .card h3 {
   font-size: 18px;
   font-weight: 700;
-  color: #1c1d1f;
+  color: var(--text-main);
   margin-bottom: 10px;
   position: relative;
   z-index: 2;
@@ -72,7 +73,7 @@ h1 {
 
 .card p {
   font-size: 14px;
-  color: #6a6f73;
+  color: var(--text-muted);
   position: relative;
   z-index: 2;
 }
@@ -86,16 +87,17 @@ h1 {
 
 /* ====== VIDEO CARD ====== */
 .video-card {
-  background: #ffffff;
+  background: var(--bg-card);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px var(--shadow-color);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid var(--border-color);
 }
 
 .video-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 8px 20px var(--shadow-color);
 }
 
 /* ====== IFRAME ====== */

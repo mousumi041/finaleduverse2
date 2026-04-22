@@ -40,7 +40,8 @@ function Login() {
 
       // store user
       localStorage.setItem("user", JSON.stringify({
-        fullName: data.user.name,
+        id: data.user.id,
+        name: data.user.name,
         email: data.user.email
       }));
 

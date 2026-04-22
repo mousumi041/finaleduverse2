@@ -1,8 +1,7 @@
-/* ROOT LAYOUT */
 .profile-layout {
   display: flex;
   min-height: 100vh;
-  background: #0b1120;
+  background: var(--bg-solid);
   position: relative;
   z-index: 1;
 }
@@ -10,15 +9,15 @@
 /* SIDEBAR */
 .sidebar {
   width: 260px;
-  background: #0f172a;
+  background: var(--bg-card);
   padding: 40px 20px;
-  border-right: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid var(--border-color);
   position: relative;
   z-index: 2;
 }
 
 .sidebar h2 {
-  color: #ffcc70;
+  color: var(--primary-accent);
   margin-bottom: 30px;
 }
 
@@ -33,34 +32,35 @@
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s;
-  color: #cbd5e1;
+  color: var(--text-main);
 }
 
 .sidebar li:hover {
-  background: rgba(255,255,255,0.08);
+  background: var(--bg-card-hover);
 }
 
 .sidebar li.active {
-  background: rgba(255, 204, 112, 0.15);
-  color: #ffcc70;
+  background: var(--primary-btn);
+  color: #ffffff;
 }
 
 /* MAIN */
 .profile-content {
   flex: 1;
   padding: 60px 8%;
-  color: white;
+  color: var(--text-main);
   position: relative;
   z-index: 2;
 }
 
 /* CARD */
 .card {
-  background: rgba(255,255,255,0.05);
+  background: var(--bg-card);
   padding: 28px;
   border-radius: 14px;
   margin-bottom: 30px;
-  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  border: 1px solid var(--border-color);
   position: relative;
   z-index: 3;
 }
@@ -79,10 +79,10 @@
   padding: 12px;
   margin-top: 12px;
   border-radius: 8px;
-  border: none;
+  border: 1px solid var(--border-color);
   outline: none;
-  background: rgba(255,255,255,0.08);
-  color: white;
+  background: var(--input-bg);
+  color: var(--text-main);
   position: relative;
   z-index: 4;
 }
@@ -93,7 +93,8 @@
   padding: 12px 28px;
   border-radius: 30px;
   border: none;
-  background: linear-gradient(90deg, #ffcc70, #ff8c00);
+  background: var(--primary-btn);
+  color: white;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -103,6 +104,7 @@
 
 .card button:hover {
   transform: scale(1.05);
+  background: var(--primary-btn-hover);
 }
 
 /* LOGOUT */
@@ -111,7 +113,8 @@
   padding: 14px 40px;
   border-radius: 30px;
   border: none;
-  background: linear-gradient(90deg, #ffcc70, #ff8c00);
+  background: var(--primary-btn);
+  color: white;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -121,15 +124,16 @@
 
 .logout-btn:hover {
   transform: scale(1.05);
+  background: var(--primary-btn-hover);
 }
 
 /* ERROR & SUCCESS */
 .error {
-  color: #ff6b6b;
+  color: #dc2626;
   margin-top: 10px;
 }
 
 .success {
-  color: #4ade80;
+  color: #16a34a;
   margin-top: 10px;
 }

@@ -5,13 +5,18 @@ function Membership() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const handleSubscribe = () => {
+  const handleSubscribe = (planName) => {
     if (!user) {
       alert("Please login to continue");
       navigate("/login");
       return;
     }
-    alert("Subscription successful! 🎉 (Demo)");
+    
+    // Save membership state inside the user object
+    const updatedUser = { ...user, isMember: true, plan: planName };
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    
+    alert(`Subscription to ${planName} successful! 🎉`);
   };
 
   return (
@@ -44,7 +49,7 @@ function Membership() {
             <li>✔ Certificates</li>
             <li>✔ Community Access</li>
           </ul>
-          <button onClick={handleSubscribe}>Get Pro</button>
+          <button onClick={() => handleSubscribe('Pro')}>Get Pro</button>
         </div>
 
         <div className="plan-card">
@@ -56,7 +61,7 @@ function Membership() {
             <li>✔ Career Guidance</li>
             <li>✔ Priority Support</li>
           </ul>
-          <button onClick={handleSubscribe}>Go Elite</button>
+          <button onClick={() => handleSubscribe('Elite')}>Go Elite</button>
         </div>
       </div>
     </div>

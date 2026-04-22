@@ -8,7 +8,8 @@
 /* PAGE */
 .register-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  background: var(--bg-main);
+  background-attachment: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,22 +22,19 @@
   max-width: 95%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-card);
   backdrop-filter: blur(15px);
   border-radius: 30px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 15px 30px var(--shadow-color);
   overflow: hidden;
 }
 
 /* LEFT PANEL */
 .register-left {
   padding: 60px;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 204, 112, 0.95),
-    rgba(255, 140, 0, 0.95)
-  );
-  color: #000;
+  background: var(--primary-accent);
+  color: #111;
 }
 
 .register-left h1 {
@@ -76,13 +74,13 @@
 /* RIGHT PANEL */
 .register-right {
   padding: 60px;
-  color: #fff;
+  color: var(--text-main);
 }
 
 .register-right h2 {
   font-size: 32px;
   margin-bottom: 40px;
-  color: #ffcc70;
+  color: var(--primary-accent);
 }
 
 /* INPUTS */
@@ -96,9 +94,9 @@
   padding: 12px 10px;
   background: transparent;
   border: none;
-  border-bottom: 2px solid #9ca3af;
+  border-bottom: 2px solid var(--border-color);
   outline: none;
-  color: #fff;
+  color: var(--text-main);
   font-size: 16px;
 }
 
@@ -107,7 +105,7 @@
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  color: #9ca3af;
+  color: var(--text-muted);
   pointer-events: none;
   transition: 0.3s;
 }
@@ -116,14 +114,13 @@
 .input-box input:valid ~ label {
   top: -8px;
   font-size: 12px;
-  color: #ffcc70;
+  color: var(--primary-accent);
 }
 
-/* OPTIONS */
 .register-options {
   margin: 6px 0 28px;
   font-size: 14px;
-  color: #d1d5db;
+  color: var(--text-muted);
 }
 
 .terms {
@@ -138,7 +135,7 @@
 }
 
 .terms a {
-  color: #ffcc70;
+  color: var(--primary-accent);
   text-decoration: none;
 }
 
@@ -148,7 +145,8 @@
   padding: 14px;
   border: none;
   border-radius: 30px;
-  background: linear-gradient(90deg, #ffcc70, #ff8c00);
+  background: var(--primary-btn);
+  color: #fff;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
@@ -162,7 +160,7 @@
 }
 
 .login-back a {
-  color: #ffcc70;
+  color: var(--primary-accent);
   text-decoration: none;
   font-weight: 600;
 }

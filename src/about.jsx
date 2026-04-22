@@ -1,6 +1,9 @@
 import "./about.css";
+import { useNavigate } from "react-router-dom";
 
 function About() {
+  const navigate = useNavigate();
+
   return (
     <div className="about-page">
 
@@ -64,7 +67,7 @@ function About() {
       <section className="about-cta">
         <h2>Join the EduVerse Journey</h2>
         <p>Learn. Grow. Succeed — with EduVerse.</p>
-        <button>Start Learning</button>
+        <button onClick={() => navigate('/courses')} style={{ cursor: 'pointer' }}>Start Learning</button>
       </section>
 
     </div>

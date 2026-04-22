@@ -19,7 +19,11 @@ mongoose.connect(process.env.MONGO_URI)
     console.log("✅ MongoDB Connected");
     console.log("👉 DB Name:", mongoose.connection.name);
   })
-  .catch(err => console.log("❌ DB ERROR:", err));
+  .catch(err => {
+    console.log("❌ DB CONNECTION ERROR:", err.message);
+    console.log("⚠️ Exiting server because DB is required. Please check your connection or IP whitelist.");
+    process.exit(1);
+  });
 
 
 // TEST ROUTE
@@ -103,6 +107,73 @@ app.post("/api/login", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
+// 🔥 UPDATE PASSWORD API
+app.put("/api/update-password", async (req, res) => {
+  try {
+    console.log("\n📥 API HIT: /api/update-password");
+    console.log("👉 Data:", req.body);
+
+    const { email, oldPassword, newPassword } = req.body;
+    console.log("👉 EMAIL RECEIVED:", email);
+
+    // validation
+    if (!email || !oldPassword || !newPassword) {
+      return res.status(400).json({ error: "All fields required" });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    // check old password
+    if (user.password !== oldPassword) {
+      return res.status(400).json({ error: "Old password incorrect" });
+    }
+
+    // update password
+    user.password = newPassword;
+    await user.save();
+
+    console.log("✅ PASSWORD UPDATED");
+
+    res.json({ message: "Password updated successfully" });
+
+  } catch (error) {
+    console.log("❌ ERROR:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+// 🔥 DELETE ACCOUNT API
+app.delete("/api/delete-account", async (req, res) => {
+  try {
+    console.log("\n📥 API HIT: /api/delete-account");
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    const user = await User.findOneAndDelete({ email });
+
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    console.log("✅ ACCOUNT DELETED");
+    res.json({ message: "Account deleted successfully" });
+  } catch (error) {
+    console.log("❌ ERROR:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 
 // 🔥 GET ALL COURSES
 app.get("/api/courses", async (req, res) => {

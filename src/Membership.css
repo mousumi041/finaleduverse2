@@ -1,8 +1,9 @@
 .membership-page {
   padding: 120px 6%;
   text-align: center;
-  background: #0f0f0f;
-  color: #e5e7eb;
+  background: var(--bg-solid);
+  color: var(--text-main);
+  min-height: 100vh;
 }
 
 /* Heading */
@@ -10,12 +11,12 @@
   font-size: 44px;
   font-weight: 700;
   margin-bottom: 12px;
-  color: #ffffff;
+  color: var(--text-main);
 }
 
 .subtitle {
   font-size: 18px;
-  color: #9ca3af;
+  color: var(--text-muted);
   max-width: 700px;
   margin: 0 auto;
 }
@@ -33,18 +34,20 @@
 
 /* Card */
 .plan-card {
-  background: #121212;
-  border: 1px solid #1f2933;
-  border-radius: 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
   padding: 40px 34px;
   text-align: left;
   transition: 0.3s ease;
   position: relative;
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .plan-card:hover {
-  border-color: #3b82f6;
+  border-color: var(--primary-btn);
   transform: translateY(-6px);
+  box-shadow: 0 14px 30px var(--shadow-color);
 }
 
 /* Title */
@@ -52,7 +55,7 @@
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 8px;
-  color: #ffffff;
+  color: var(--text-main);
 }
 
 /* Price */
@@ -60,7 +63,7 @@
   font-size: 34px;
   font-weight: 700;
   margin: 18px 0 26px;
-  color: #ffffff;
+  color: var(--text-main);
 }
 
 /* Features */
@@ -73,37 +76,36 @@
 .plan-card ul li {
   margin: 14px 0;
   font-size: 15px;
-  color: #d1d5db;
+  color: var(--text-muted);
 }
 
-/* Button */
 .plan-card button {
   width: 100%;
   padding: 14px 0;
-  border-radius: 10px;
+  border-radius: 30px;
   border: none;
-  background: #ffffff;
-  color: #000000;
-  font-weight: 600;
+  background: var(--primary-btn);
+  color: #ffffff;
+  font-weight: 700;
   font-size: 15px;
   cursor: pointer;
   transition: 0.25s ease;
 }
 
 .plan-card button:hover {
-  background: #e5e7eb;
+  background: var(--primary-btn-hover);
 }
 
 .plan-card button:disabled {
-  background: #1f2937;
-  color: #9ca3af;
+  background: var(--border-color);
+  color: var(--text-muted);
   cursor: not-allowed;
 }
 
-/* Popular (ChatGPT Plus style highlight) */
+/* Popular (Highlight) */
 .popular {
-  border: 2px solid #3b82f6;
-  background: #0b1220;
+  border: 2px solid var(--primary-btn);
+  background: var(--bg-card);
 }
 
 /* Badge */
@@ -112,7 +114,7 @@
   top: -14px;
   left: 50%;
   transform: translateX(-50%);
-  background: #3b82f6;
+  background: var(--primary-btn);
   color: #ffffff;
   padding: 6px 14px;
   border-radius: 999px;

@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import "./courses.css";
 
 function QuizSubjects() {
   const navigate = useNavigate();
 
-  const subjects = ["React", "JavaScript"];
+  const subjects = ["React", "JavaScript", "Python", "HTML", "CSS", "C++", "Java", "Node.js"];
 
   return (
     <div className="page">

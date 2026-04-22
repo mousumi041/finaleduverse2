@@ -1,39 +1,14 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import "./courses.css";
+
+import { getQuizQuestions } from "./quizBank.js";
 
 function QuizPage() {
   const { subject } = useParams();
   const navigate = useNavigate();
 
-  const quizBank = {
-    React: [
-      {
-        q: "What is React?",
-        options: [
-          "A JavaScript library",
-          "A programming language",
-          "A database",
-          "A web server"
-        ],
-        a: 0
-      },
-      {
-        q: "Which hook is used for state?",
-        options: ["useEffect", "useState", "useRef", "useContext"],
-        a: 1
-      }
-    ],
-    JavaScript: [
-    
-      {
-        q: "Which is NOT a JavaScript datatype?",
-        options: ["String", "Boolean", "Undefined", "Float"],
-        a: 3
-      }
-    ]
-  };
-
-  const questions = quizBank[subject] || [];
+  const questions = getQuizQuestions(subject);
 
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -100,22 +75,28 @@ function QuizPage() {
                 padding: "14px 20px",
                 borderRadius: "14px",
                 cursor: "pointer",
+                position: "relative",
+                zIndex: 2,
                 border:
                   selected === i
-                    ? "2px solid #ff8c00"
-                    : "1px solid rgba(255,255,255,0.3)",
+                    ? "2px solid #5624d0"
+                    : "1px solid #e2e8f0",
                 background:
                   selected === i
-                    ? "rgba(255, 204, 112, 0.25)"
-                    : "rgba(255,255,255,0.08)",
-                color: "#fff"
+                    ? "rgba(86, 36, 208, 0.1)"
+                    : "#f7f9fb",
+                color: "#1c1d1f"
               }}
             >
               {op}
             </div>
           ))}
 
-          <button onClick={handleNext} disabled={selected === null}>
+          <button 
+            onClick={handleNext} 
+            disabled={selected === null}
+            style={{ position: "relative", zIndex: 2 }}
+          >
             {index + 1 === questions.length ? "Submit Quiz" : "Next"}
           </button>
         </div>
@@ -127,7 +108,10 @@ function QuizPage() {
           </p>
 
 
-          <button onClick={() => navigate("/profile")}>
+          <button 
+            onClick={() => navigate("/profile")}
+            style={{ position: "relative", zIndex: 2 }}
+          >
             Back to Dashboard
           </button>
         </div>
