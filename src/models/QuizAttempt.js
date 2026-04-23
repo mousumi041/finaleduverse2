@@ -47,11 +47,7 @@ const quizAttemptSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
-  skillLevel: {
-    type: String,
-    enum: ['Beginner', 'Intermediate', 'Advanced'],
-    default: 'Beginner'
-  }
+
 }, { timestamps: true });
 
 // Index for efficient querying

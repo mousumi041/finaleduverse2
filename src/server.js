@@ -302,7 +302,6 @@ app.post("/api/course-progress", async (req, res) => {
         userProgress.skillsGained.push({
           skill: subject,
           category,
-          level: 'Beginner',
           earnedAt: new Date()
         });
         await userProgress.save();
@@ -339,9 +338,7 @@ app.post("/api/quiz-attempt", async (req, res) => {
       return res.status(400).json({ error: "Invalid userId" });
     }
 
-    const skillLevel =
-      score >= 80 ? "Advanced" :
-      score >= 60 ? "Intermediate" : "Beginner";
+
 
     const quizAttempt = new QuizAttempt({
       userId,
@@ -352,8 +349,7 @@ app.post("/api/quiz-attempt", async (req, res) => {
       totalQuestions,
       correctAnswers,
       timeSpent,
-      passed,
-      skillLevel
+      passed
     });
 
     await quizAttempt.save();
@@ -373,13 +369,12 @@ app.post("/api/quiz-attempt", async (req, res) => {
 
     const alreadyHasSkill = userProgress.skillsGained.find(s => s.skill === subject);
     if (passed && !alreadyHasSkill) {
-      userProgress.skillsGained.push({
-        skill: subject,
-        category,
-        level: skillLevel,
-        earnedAt: new Date()
-      });
-      console.log(`🎯 Skill gained: ${subject} (${skillLevel})`);
+        userProgress.skillsGained.push({
+          skill: subject,
+          category,
+          earnedAt: new Date()
+        });
+        console.log(`🎯 Skill gained: ${subject}`);
     }
 
     await userProgress.save();
@@ -424,10 +419,11 @@ app.get("/api/dashboard/:userId", async (req, res) => {
       return res.status(400).json({ error: "Invalid userId" });
     }
 
-    const [userProgress, courseProgress, quizAttempts] = await Promise.all([
+    const [userProgress, courseProgress, quizAttempts, quizzesAttempted] = await Promise.all([
       UserProgress.findOne({ userId }),
       CourseProgress.find({ userId }),
-      QuizAttempt.find({ userId }).sort({ attemptedAt: -1 }).limit(10)
+      QuizAttempt.find({ userId }).sort({ attemptedAt: -1 }).limit(10),
+      QuizAttempt.countDocuments({ userId })
     ]);
 
     res.json({
@@ -438,7 +434,7 @@ app.get("/api/dashboard/:userId", async (req, res) => {
         totalVideosWatched: userProgress?.videosWatched?.length || 0,
         coursesInProgress: courseProgress?.filter(cp => !cp.isCompleted).length || 0,
         coursesCompleted: courseProgress?.filter(cp => cp.isCompleted).length || 0,
-        quizzesAttempted: quizAttempts?.length || 0,
+        quizzesAttempted: quizzesAttempted || 0,
         skillsGained: userProgress?.skillsGained?.length || 0
       }
     });

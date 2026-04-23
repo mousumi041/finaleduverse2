@@ -52,11 +52,7 @@ const userProgressSchema = new mongoose.Schema({
   skillsGained: [{
     skill: String,
     category: String,
-    level: {
-      type: String,
-      enum: ['Beginner', 'Intermediate', 'Advanced'],
-      default: 'Beginner'
-    },
+
     earnedAt: {
       type: Date,
       default: Date.now

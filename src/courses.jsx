@@ -6,6 +6,7 @@ import "./courses.css";
 export default function Courses() {
   const navigate = useNavigate();
   const [courses, setCourses] = useState({});
+  const [searchQuery, setSearchQuery] = useState("");
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -27,24 +28,76 @@ export default function Courses() {
       });
   }, []);
 
+  const categories = Object.keys(courses);
+
+  // Flatten all subjects for searching
+  const allSubjects = [];
+  categories.forEach(cat => {
+    Object.keys(courses[cat]).forEach(sub => {
+      allSubjects.push({ category: cat, subject: sub });
+    });
+  });
+
+  const filteredCategories = categories.filter(cat =>
+    cat.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredSubjects = allSubjects.filter(item =>
+    item.subject.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // If searching, show matching subjects. If not, show categories.
+  const isSearching = searchQuery.trim() !== "";
+
   return (
     <div className="page">
-      <h1>All Categories</h1>
-
-      <div className="grid">
-        {Object.keys(courses).map((cat) => (
-          <div
-            key={cat}
-            className="card"
-            onClick={() => navigate(`/courses/${cat}`)}
-          >
-            <h3>{cat}</h3>
-            <p>{Object.keys(courses[cat]).length} subjects</p>
-          </div>
-        ))}
+      <div className="search-container">
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search for a course or subject..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </div>
 
-      {user?.isMember && (
+      <h1>All Categories</h1>
+
+      {isSearching ? (
+        <div className="grid">
+          {filteredSubjects.length > 0 ? (
+            filteredSubjects.map((item, idx) => (
+              <div
+                key={idx}
+                className="card"
+                onClick={() => navigate(`/courses/${item.category}/${item.subject}`)}
+              >
+                <h3>{item.subject}</h3>
+                <p>{item.category}</p>
+              </div>
+            ))
+          ) : (
+            <div className="no-results" style={{ gridColumn: "1 / -1" }}>
+              Course not found
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="grid">
+          {categories.map((cat) => (
+            <div
+              key={cat}
+              className="card"
+              onClick={() => navigate(`/courses/${cat}`)}
+            >
+              <h3>{cat}</h3>
+              <p>{Object.keys(courses[cat]).length} subjects</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {user?.isMember && !isSearching && (
         <div style={{ marginTop: "40px" }}>
           <h2>Premium Content</h2>
           <div className="grid">

@@ -38,9 +38,7 @@ function Profile({ theme, toggleTheme }) {
   }, [fetchDashboardData]);
 
 
-  const quizzesTaken =
-    dashboardData?.stats?.quizzesAttempted ||
-    Number(localStorage.getItem("quizzesTaken")) || 0;
+  const quizzesTaken = dashboardData?.stats?.quizzesAttempted ?? 0;
   const totalVideosWatched = dashboardData?.stats?.totalVideosWatched || 0;
   const coursesInProgress = dashboardData?.stats?.coursesInProgress || 0;
   const completedCourseNames = dashboardData?.courseProgress
@@ -70,7 +68,7 @@ function Profile({ theme, toggleTheme }) {
   const [accountSuccess, setAccountSuccess] = useState("");
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.clear();
     window.location.href = "/";
   };
 
