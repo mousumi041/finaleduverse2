@@ -7,28 +7,32 @@ export default function Subject() {
   const { category, subject } = useParams();
   const navigate = useNavigate();
   const [videos, setVideos] = useState([]);
-  const [watchedVideos, setWatchedVideos] = useState(() => {
-    return JSON.parse(localStorage.getItem("watchedVideos")) || [];
-  });
+  const [watchedVideos, setWatchedVideos] = useState([]);
 
-  const toggleWatch = (id) => {
-    let updated;
-    const existing = watchedVideos.find(v => v.id === id);
-    if (existing) {
-      updated = watchedVideos.filter(v => v.id !== id);
-    } else {
-      updated = [...watchedVideos, { id, subject }];
-    }
-    setWatchedVideos(updated);
-    localStorage.setItem("watchedVideos", JSON.stringify(updated));
-  };
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?._id;
 
+  // Load watched videos from DB on mount
+  useEffect(() => {
+    if (!userId) return;
+    fetch(`http://localhost:5000/api/progress/${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data?.videosWatched) {
+          setWatchedVideos(data.videosWatched.map(v => v.videoId));
+        }
+      })
+      .catch(() => {});
+  }, [userId]);
+
+  // Load course videos
   useEffect(() => {
     fetch("http://localhost:5000/api/courses")
       .then(res => res.json())
       .then(fetchedData => {
-        const user = JSON.parse(localStorage.getItem("user"));
-        const data = user?.isMember ? [...fetchedData, ...premiumCourses] : fetchedData;
+        const data = user?.isMember
+          ? [...fetchedData, ...premiumCourses]
+          : fetchedData;
 
         const course = data.find(
           c => c.category === category && c.subject === subject
@@ -39,6 +43,55 @@ export default function Subject() {
         }
       });
   }, [category, subject]);
+
+  const toggleWatch = async (id) => {
+    if (!userId) return;
+
+    const isWatched = watchedVideos.includes(id);
+
+    // Optimistic UI update
+    setWatchedVideos(prev =>
+      isWatched ? prev.filter(v => v !== id) : [...prev, id]
+    );
+
+    if (!isWatched) {
+      try {
+        // Save to userprogress collection
+        await fetch("http://localhost:5000/api/progress/video", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            videoId: id,
+            category,
+            subject,
+            duration: 0,
+            completed: true
+          })
+        });
+
+        // Save to courseprogress collection
+        await fetch("http://localhost:5000/api/course-progress", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            category,
+            subject,
+            videoId: id,
+            title: id,
+            watchTime: 0
+          })
+        });
+      } catch (err) {
+        console.error("Failed to save progress:", err);
+        // Revert optimistic update on error
+        setWatchedVideos(prev =>
+          isWatched ? [...prev, id] : prev.filter(v => v !== id)
+        );
+      }
+    }
+  };
 
   return (
     <div className="page">
@@ -55,16 +108,24 @@ export default function Subject() {
               src={`https://www.youtube.com/embed/${id}`}
               allowFullScreen
             />
-            {localStorage.getItem("user") && (
-              <button 
+            {user && (
+              <button
                 onClick={() => toggleWatch(id)}
                 style={{
-                  width: "100%", padding: "10px", marginTop: "10px", cursor: "pointer",
-                  background: watchedVideos.find(v => v.id === id) ? "#10b981" : "var(--primary-btn)",
-                  color: "#fff", border: "none", borderRadius: "8px", fontWeight: "bold"
+                  width: "100%",
+                  padding: "10px",
+                  marginTop: "10px",
+                  cursor: "pointer",
+                  background: watchedVideos.includes(id)
+                    ? "#10b981"
+                    : "var(--primary-btn)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "8px",
+                  fontWeight: "bold"
                 }}
               >
-                {watchedVideos.find(v => v.id === id) ? "✅ Watched" : "Mark as Watched"}
+                {watchedVideos.includes(id) ? "✅ Watched" : "Mark as Watched"}
               </button>
             )}
           </div>

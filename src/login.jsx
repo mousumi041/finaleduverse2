@@ -17,7 +17,6 @@ function Login() {
     }
 
     try {
-      // ✅ FIXED URL (IMPORTANT)
       const res = await fetch("http://localhost:5000/api/login", {
         method: "POST",
         headers: {
@@ -27,7 +26,6 @@ function Login() {
       });
 
       let data;
-
       try {
         data = await res.json();
       } catch {
@@ -38,12 +36,19 @@ function Login() {
         throw new Error(data.error || "Login failed");
       }
 
-      // store user
+      // Confirm _id came back before storing
+      if (!data.user._id) {
+        throw new Error("Login error: user ID missing from server response");
+      }
+
       localStorage.setItem("user", JSON.stringify({
-        id: data.user.id,
+        _id: data.user._id,      // MongoDB ObjectId as string
         name: data.user.name,
         email: data.user.email
       }));
+
+      // Quick confirm in console
+      console.log("✅ Stored user:", JSON.parse(localStorage.getItem("user")));
 
       navigate("/");
       window.location.reload();
@@ -62,7 +67,7 @@ function Login() {
           <h2>Welcome Back!</h2>
           <p>
             Log in to continue your learning journey and unlock
-            India’s smartest digital education platform.
+            India's smartest digital education platform.
           </p>
         </div>
 
